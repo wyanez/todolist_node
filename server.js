@@ -5,7 +5,7 @@ function start(route,handle){
 	function onRequest(request,response){
 		var pathname = url.parse(request.url).pathname;
 		console.log('[server] Request for ' + pathname + ' received.');
-		route(handle,pathname,response,request);
+		route(handle,pathname,request,response);
 	}
 
 	var port = process.env.PORT || 8888;

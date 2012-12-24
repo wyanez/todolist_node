@@ -1,8 +1,8 @@
-function route(handle,pathname,response,request){
+function route(handle,pathname,request,response){
 	console.log("[router] Processing request for "+pathname);
 
 	if (typeof handle[pathname] == 'function'){
-		handle[pathname](response,request);
+		handle[pathname](request,response);
 	}
 	else{
 		var msg = "[router] Error: No request handler found for "+pathname;
