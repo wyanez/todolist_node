@@ -3,14 +3,31 @@ var url = require('url');
 var util = require('util');
 var querystring = require('querystring');
 
+
 var appURL = 'http://localhost:8888';
+
+//Variables para la conexion con MongoDB
+var models = require('./models')
+var mongoose = require('mongoose');
+var toDo = mongoose.model('todo');
+
 
 function list(request,response){
     console.log('[requestHandler] Action list was called.');
     
-    response.writeHead(200, {'Content-Type': 'text/html'});
-    response.write('<h1>ToDo List</h1>');
-    response.end();
+    toDo.find({}, function(err,todos) {
+        if (err) return response.send(err);
+        response.writeHead(200, {'Content-Type': 'text/html'});
+        response.write('<h1>ToDo List</h1>');
+        response.write('<ul>');
+
+        console.log(todos);
+        todos.forEach(function(todo) {
+            response.write('<li>' + todo.title + ' <a href="remove?id='+todo._id+'">remove</a></li>'); ;
+        })
+        var form = '';
+        response.end(form); 
+    });
 }
 
 function add(request,response){
