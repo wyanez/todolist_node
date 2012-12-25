@@ -37,7 +37,15 @@ function add(request,response){
 
 function remove(request,response){
 	console.log('[requestHandler] Action remove was called.');
-    redirect_to('/list',response);
+
+    parsedURL = url.parse(request.url, true);
+    console.log('[requestHandler] _id to remove ' + parsedURL.query['id']);
+    toDo.findOne({_id: parsedURL.query['id']},function(err,docs){
+        console.log('[requestHandler] deleting' + docs); //Remove all the documents that match!
+        docs.remove();
+        docs.save();
+        redirect_to('/list',response);
+    });
 }    
 
 function redirect_to(action,response){
